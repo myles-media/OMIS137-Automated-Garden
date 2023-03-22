@@ -1,3 +1,5 @@
+import java.util.Map;
+
 class WateringSystem {
     Garden garden;
     Map<Plant, Integer> schedule;

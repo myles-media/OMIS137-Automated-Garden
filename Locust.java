@@ -1,9 +1,8 @@
-public abstract class Locust extends Insects {
-    public Locust(String name, int lifespan) {
-        super(name, lifespan);
+class Locust extends Insect {
+    public Locust(String name) {
+        super(name);
+        this.damage = 0.7;
+        this.reproductionRate = 1.9;
+        this.lifespan = 5;
     }
-    //public void attack(Plants plant) {
-        //int newHealth = plant.getHealth() - getlifespan();
-        //plant.setHealth(newHealth);
-        //System.out.println(getName() + " attacked " + plant.getName() + " and dealt " + getDamageLevel() + " damage!");
-    }
+}

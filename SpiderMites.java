@@ -1,5 +1,8 @@
-public class SpiderMites extends Insects {
-    public SpiderMites(String name, int lifespan, String color) {
-        super(name, lifespan, color);
+class SpiderMites extends Insect {
+    public SpiderMites(String name) {
+        super(name);
+        this.damage = 0.3;
+        this.reproductionRate = 1.0;
+        this.lifespan = 20;
     }
 }

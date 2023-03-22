@@ -1,2 +1,9 @@
-public class Mint extends Plants{
+class Mint extends Plant {
+    public Mint(String name) {
+        super(name);
+        this.growthRate = 1.2;
+        this.waterRequirement = 0.8;
+        this.temperatureRequirement = 0.6;
+        this.lifespan = 3 * 365;
+    }
 }

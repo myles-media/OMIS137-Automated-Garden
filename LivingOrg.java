@@ -1,22 +1,40 @@
-public abstract class LivingOrg {
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+// Parent classes
+
+abstract class LivingOrg {
     protected String name;
-    protected int lifespan;
     protected int age;
+    protected int lifespan;
+    protected boolean isAlive;
+    protected String type;
 
-    public LivingOrg(String name, int lifespan) {
-        this.name = name;
-        this.lifespan = lifespan;
-        this.age = 0;
+    public void grow() {}
+
+    public boolean checkAlive() {
+        if (age >= lifespan) {
+            isAlive = false;
+        }
+        return isAlive;
     }
 
-    public void grow() {
-        this.age++;
+    public String getType() {
+        return type;
     }
 
-    public boolean isAlive() {
-        return this.age < this.lifespan;
+    public String getName() {
+        return name;
     }
 
-    public abstract void interact();
+    public int getAge() {
+        return age;
+    }
+
+    public void tick() {
+        age++;
+        checkAlive();
+    }
 }
-

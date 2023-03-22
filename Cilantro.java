@@ -3,7 +3,7 @@ class Cilantro extends Plant {
         super(name);
         this.growthRate = 1.5;
         this.waterRequirement = 0.6;
-        this.temperatureRequirement = 6;
+        this.sunlightRequirement = 5;
         this.lifespan = 2 * 365;
     }
 }

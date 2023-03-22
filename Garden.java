@@ -10,7 +10,6 @@ class Garden {
     List<Sensor> sensors;
     WateringSystem wateringSystem;
     SunlightSystem sunlightSystem;
-    PestControlSystem pestControlSystem;
 
     public Garden() {
         plants = new ArrayList<>();

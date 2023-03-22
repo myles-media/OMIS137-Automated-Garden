@@ -1,7 +1,7 @@
 class Plant extends LivingOrg {
     protected double growthRate;
     protected double waterRequirement;
-    protected double temperatureRequirement;
+    protected double sunlightRequirement;
 
     public Plant(String name) {
         this.name = name;
@@ -24,8 +24,8 @@ class Plant extends LivingOrg {
         return waterRequirement;
     }
 
-    public double getTemperatureRequirement() {
-        return temperatureRequirement;
+    public double getsunlightRequirement() {
+        return sunlightRequirement;
     }
 
     public void setGrowthRate(double growthRate) {
@@ -34,9 +34,5 @@ class Plant extends LivingOrg {
 
     public void setWaterRequirement(double waterRequirement) {
         this.waterRequirement = waterRequirement;
-    }
-
-    public void setTemperatureRequirement(double temperatureRequirement) {
-        this.temperatureRequirement = temperatureRequirement;
     }
 }

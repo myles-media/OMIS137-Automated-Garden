@@ -3,7 +3,7 @@ class Mint extends Plant {
         super(name);
         this.growthRate = 1.2;
         this.waterRequirement = 0.8;
-        this.temperatureRequirement = 0.6;
+        this.sunlightRequirement = 7;
         this.lifespan = 3 * 365;
     }
 }

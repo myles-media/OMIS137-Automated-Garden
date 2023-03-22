@@ -3,7 +3,7 @@ class Lemongrass extends Plant {
         super(name);
         this.growthRate = 0.7;
         this.waterRequirement = 1.4;
-        this.temperatureRequirement = 0.6;
+        this.sunlightRequirement = 8;
         this.lifespan = 5 * 365;
     }
 }

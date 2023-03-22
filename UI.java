@@ -1,33 +1,35 @@
 class UI {
     private Garden garden;
+
     public UI(Garden garden) {
         this.garden = garden;
-        }
+    }
 
-public void displayMenu() {
+    public void displayMenu() {
         // Display main menu options
-        }
+    }
 
-public void processInput() {
+    public void processInput() {
         // Process user input and call appropriate methods
-        }
+    }
 
-public void showGardenStatus() {
+    public void showGardenStatus() {
         // Display the current status of the garden
-        }
+    }
 
-public void showWateringSchedule() {
+    public void showWateringSchedule() {
         // Display the watering schedule for each plant
-        }
+    }
 
-public void showSunlightSchedule() {
+    public void showSunlightSchedule() {
         // Display the sunlight schedule for each plant
-        }
+    }
 
-public void managePestControl() {
+    public void managePestControl() {
         // Allow user to manage pest control methods
-        }
+    }
 
-public void showLogs() {
+    public void showLogs() {
         // Display the log menu options
-        }
+    }
+}

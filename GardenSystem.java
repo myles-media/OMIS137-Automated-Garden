@@ -50,7 +50,8 @@ public class GardenSystem {
             System.out.println("2. Show watering schedule");
             System.out.println("3. Show sunlight schedule");
             System.out.println("4. Show logs");
-            System.out.println("5. Exit");
+            System.out.println("5. Date & Time");
+            System.out.println("6. Exit");
             System.out.print("Enter choice: ");
 
             // Get user input

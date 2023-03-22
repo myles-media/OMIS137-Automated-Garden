@@ -1,6 +1,3 @@
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 class WateringSystem {
     Garden garden;
     Map<Plant, Integer> schedule;
@@ -27,5 +24,4 @@ class WateringSystem {
             waterPlant(plant);
         }
     }
-
 }

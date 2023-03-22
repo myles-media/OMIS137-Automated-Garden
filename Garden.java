@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 class Garden {
     List<Plant> plants;
@@ -10,12 +11,20 @@ class Garden {
     List<Sensor> sensors;
     WateringSystem wateringSystem;
     SunlightSystem sunlightSystem;
+    long startTime;
 
     public Garden() {
         plants = new ArrayList<>();
         insects = new ArrayList<>();
         sprinklers = new ArrayList<>();
         sensors = new ArrayList<>();
+        startTime = System.nanoTime();
+
+    }
+    public double simulationDays() {
+        long elapsedTime = System.nanoTime() - startTime;
+        long elapsedHours = TimeUnit.NANOSECONDS.toSeconds(elapsedTime);
+        return (double) elapsedHours / 24;
     }
 
     public void addPlant(Plant plant) {

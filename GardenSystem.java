@@ -8,16 +8,16 @@ public class GardenSystem {
         Garden garden = new Garden();
 
         // Add plants, insects, sprinklers, and sensors to the garden
-        Plant mint1 = new Mint("Mint 1");
-        Plant cilantro1 = new Cilantro("Cilantro 1");
-        Plant basil1 = new Basil("Basil 1");
+        Plant mint1 = new Mint("Mint");
+        Plant cilantro1 = new Cilantro("Cilantro");
+        Plant basil1 = new Basil("Basil");
         garden.addPlant(mint1);
         garden.addPlant(cilantro1);
         garden.addPlant(basil1);
 
-        Insect beetle1 = new Beetle("Beetle 1");
-        Insect locust1 = new Locust("Locust 1");
-        Insect spiderMites1 = new SpiderMites("Spider Mites 1");
+        Insect beetle1 = new Beetle("Beetle");
+        Insect locust1 = new Locust("Locust");
+        Insect spiderMites1 = new SpiderMites("Spider Mites");
         garden.addInsect(beetle1);
         garden.addInsect(locust1);
         garden.addInsect(spiderMites1);
@@ -27,8 +27,8 @@ public class GardenSystem {
         garden.addSprinkler(sprinkler1);
         garden.addSprinkler(sprinkler2);
 
-        Sensor temperatureSensor1 = new Sensor("Temperature Sensor 1");
-        Sensor moistureSensor1 = new Sensor("Moisture Sensor 1");
+        Sensor temperatureSensor1 = new Sensor("Temperature Sensor");
+        Sensor moistureSensor1 = new Sensor("Moisture Sensor");
         garden.addSensor(temperatureSensor1);
         garden.addSensor(moistureSensor1);
 
@@ -43,7 +43,9 @@ public class GardenSystem {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             // Display the main menu
+            System.out.println("\n==============================");
             System.out.println("== Garden System Main Menu ==");
+            System.out.println("==============================");
             System.out.println("1. Display garden status");
             System.out.println("2. Show watering schedule");
             System.out.println("3. Show sunlight schedule");
@@ -61,12 +63,15 @@ public class GardenSystem {
                     garden.displayGardenStatus();
                     break;
                 case 2:
-                    System.out.println(wateringSystem.getWateringSchedule());
+                    System.out.println("\n=== Watering Schedule ===");
+                    wateringSystem.displayWateringSchedule();
                     break;
                 case 3:
+                    System.out.println("\n=== Sunlight Schedule ===");
                     sunlightSystem.displaySunlightSchedule();
                     break;
                 case 4:
+                    System.out.println("\n=== Logs ===");
                     showLogs(loggingSystem, scanner);
                     break;
                 case 5:
@@ -79,9 +84,12 @@ public class GardenSystem {
     }
 
     private static void showLogs(LoggingSystem loggingSystem, Scanner scanner) {
-        System.out.println("== Logs ==");
         loggingSystem.displayLogs();
         System.out.print("Press Enter to return to the main menu.");
         scanner.nextLine();
     }
 }
+
+// ... (rest of the classes)
+
+

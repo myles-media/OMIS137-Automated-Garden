@@ -97,7 +97,6 @@ class Garden {
         sprinklers.remove(sprinkler);
     }
 
-
     public void simulateDay() {
         // define the range
         int max = 2;

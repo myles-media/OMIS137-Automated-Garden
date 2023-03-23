@@ -89,6 +89,7 @@ public class GardenSystem {
         JMenuItem optionMnuItm2 = new JMenuItem("Watering schedule");
         JMenuItem optionMnuItm3 = new JMenuItem("Sunlight schedule");
         JMenuItem optionMnuItm4 = new JMenuItem("Logs");
+        JMenuItem optionMnuItm5 = new JMenuItem("Date & Time");
         
         // close window
         fileMnu.add(fileExitMnuItm);
@@ -100,6 +101,7 @@ public class GardenSystem {
         optionMnu.add(optionMnuItm2);
         optionMnu.add(optionMnuItm3);
         optionMnu.add(optionMnuItm4);
+        optionMnu.add(optionMnuItm5);
 
         // garden status
         optionMnuItm1.addActionListener(new ActionListener() {
@@ -123,6 +125,12 @@ public class GardenSystem {
         optionMnuItm4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showLogs();
+            }
+        });
+        optionMnuItm5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                showDateTime();
             }
         });
 
@@ -159,6 +167,20 @@ public class GardenSystem {
         background.setLayout(new GridBagLayout());
         background.add(mainPanel);
         mainFrame.setVisible(true);
+    }
+    private static void showDateTime() {
+        JFrame frame = new JFrame("Date and Time");
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+
+        listModel.addElement("The simulation has been running for: " + garden.simulationDays()+" days!");
+
+        JList<String> list = new JList<>(listModel);
+
+        JPanel panel = new JPanel();
+        panel.add(list);
+        frame.add(panel);
+        frame.setSize(400, 200);
+        frame.setVisible(true);
     }
 
     private static void showLogs() {

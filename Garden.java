@@ -32,9 +32,9 @@ class Garden {
 
     public double simulationDays() {
         long elapsedTime = System.nanoTime() - startTime;
-        long elapsedHours = TimeUnit.NANOSECONDS.toSeconds(elapsedTime);
-        int days = (int) elapsedHours / 24;
-        return Math.round(days * 100.0) / 100.0;
+        long elapsedHours = TimeUnit.NANOSECONDS.toHours(elapsedTime);
+        double days = (double) elapsedHours / 24;
+        return days;
     }
 
     public void addPlant(Plant plant) {

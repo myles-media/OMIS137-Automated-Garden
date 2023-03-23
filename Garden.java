@@ -33,7 +33,7 @@ class Garden {
     public double simulationDays() {
         long elapsedTime = System.nanoTime() - startTime;
         long elapsedHours = TimeUnit.NANOSECONDS.toSeconds(elapsedTime);
-        double days = (double) elapsedHours / 24;
+        int days = (int) elapsedHours / 24;
         return Math.round(days * 100.0) / 100.0;
     }
 
@@ -99,27 +99,54 @@ class Garden {
 
 
     public void simulateDay() {
-        for (Plant plant : plants) {
-            plant.grow();
-        }
-        for (Insect insect : insects) {
-            if (insect.getName().equals("Locust")) {
-                // Locust evolve faster than other insects
-                insect.age = Age.values()[(insect.getAge().ordinal() + 2) % Age.values().length];
-            } else if (insect.getName().equals("Worm")) {
-                // Worms evolve faster than other insects
-                insect.age = Age.values()[(insect.getAge().ordinal() + 4) % Age.values().length];
-            } else {
-                // Other insects evolve normally
-                insect.grow();
+        // define the range
+        int max = 2;
+        int min = 1;
+        int range = max - min + 1;
+        // generate random numbers within 1 to 10
+        int rand = 0;
+        for (int i = 0; i < 10; i++) {
+            rand = (int) (Math.random() * range) + min;
+            for (Plant plant : plants) {
+                if (plant.getName().equals("Lemongrass")) {
+                    // Lemongrass evolve faster than other insects
+                    plant.age = Age.values()[(plant.getAge().ordinal() + rand) % Age.values().length];
+                } else if (plant.getName().equals("Cilantro")) {
+                    // Cilantro evolve faster than other insects
+                    plant.age = Age.values()[(plant.getAge().ordinal() + rand) % Age.values().length];
+                } else if (plant.getName().equals("Basil")) {
+                    // Cilantro evolve faster than other insects
+                    plant.age = Age.values()[(plant.getAge().ordinal() + rand) % Age.values().length];
+                } else if (plant.getName().equals("Basil")) {
+                    // Cilantro evolve faster than other insects
+                    plant.age = Age.values()[(plant.getAge().ordinal() + rand) % Age.values().length];
+                    // Other insects evolve normally
+                    plant.grow();
+                }
+                for (Insect insect : insects) {
+                    if (insect.getName().equals("Locust")) {
+                        // Locust evolve faster than other insects
+                        insect.age = Age.values()[(insect.getAge().ordinal() + rand) % Age.values().length];
+                    } else if (insect.getName().equals("Worm")) {
+                        // Worms evolve faster than other insects
+                        insect.age = Age.values()[(insect.getAge().ordinal() + rand) % Age.values().length];
+                    } else if (insect.getName().equals("Spider Mite")) {
+                        // Worms evolve faster than other insects
+                        insect.age = Age.values()[(insect.getAge().ordinal() + rand) % Age.values().length];
+                    } else {
+                        // Other insects evolve normally
+                        insect.grow();
+                    }
+                }
+                sunlightSystem.simulateSunlight();
+                wateringSystem.executeWatering();
             }
         }
-        sunlightSystem.simulateSunlight();
-        wateringSystem.executeWatering();
     }
+}
 
-    //public String getDaySummary() {
+//public String getDaySummary() {
         // Return a string that represents the summary of what happened in the garden during the simulation.
         // This should include plant growth, insect activity, watering, and sunlight.
-    }
+
 

@@ -39,7 +39,7 @@ public class GardenSystem {
         garden.addInsect(locust1);
         garden.addInsect(spiderMites1);
         garden.addInsect(worm1);
-        
+
         Sprinkler sprinkler1 = new Sprinkler(new Point(0, 0), 10, 2);
         Sprinkler sprinkler2 = new Sprinkler(new Point(10, 10), 5, 1.5);
         garden.addSprinkler(sprinkler1);
@@ -65,7 +65,7 @@ public class GardenSystem {
         mb.add(fileMnu);
         mb.add(plantMnu);
         mb.add(optionMnu);
- 
+
         JMenuItem fileExitMnuItm = new JMenuItem("Exit");
         JMenuItem plantAddMnuItm = new JMenuItem("Add New");
         JMenuItem PlantlistMnuItm = new JMenuItem("List of Plants");
@@ -74,11 +74,12 @@ public class GardenSystem {
         JMenuItem optionMnuItm2 = new JMenuItem("Watering schedule");
         JMenuItem optionMnuItm3 = new JMenuItem("Sunlight schedule");
         JMenuItem optionMnuItm4 = new JMenuItem("Logs");
-        
+
+
         // close window
         fileMnu.add(fileExitMnuItm);
         fileExitMnuItm.addActionListener(e -> mainFrame.dispose());
-    
+
         plantMnu.add(plantAddMnuItm);
         plantMnu.add(PlantlistMnuItm);
         optionMnu.add(optionMnuItm1);
@@ -95,7 +96,7 @@ public class GardenSystem {
                 for (Plant plant : garden.plants) {
                     listModel.addElement(plant.getName() + " - Age: " + plant.getAge());
                 }
-                
+
                 listModel.addElement("------------------------------------------");
                 listModel.addElement("INSECTS");
                 for (Insect insect : garden.insects) {
@@ -117,7 +118,7 @@ public class GardenSystem {
                 DefaultListModel<String> listModel = new DefaultListModel<>();
 
                 for (Plant plant : garden.plants) {
-                    listModel.addElement(plant.getName()+ " has: " + plant.getWaterLevel() + " units of water.");
+                    listModel.addElement(plant.getName() + " has: " + plant.getWaterLevel() + " units of water.");
                     double requiredWater = (plant.getWaterRequirement() - plant.getWaterLevel());
                     listModel.addElement("It needs: " + requiredWater + " more units");
                     listModel.addElement("-------------------------------------------------");
@@ -154,7 +155,7 @@ public class GardenSystem {
                 JFrame frame = new JFrame("Logs");
                 DefaultListModel<String> listModel = new DefaultListModel<>();
 
-                for (String logs: loggingSystem.logs) {
+                for (String logs : loggingSystem.logs) {
                     listModel.addElement("Log - " + " " + logs);
                 }
                 JList<String> list = new JList<>(listModel);
@@ -172,9 +173,9 @@ public class GardenSystem {
         plantAddMnuItm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame plantFrame = new JFrame("Add plant");
-                JTextField txtAdd = new JTextField(null,10); // accepts upto 10 characters
+                JTextField txtAdd = new JTextField(null, 10); // accepts upto 10 characters
                 JButton addBtn = new JButton("Add to garden");
-                
+
                 JPanel panel = new JPanel();
                 panel.setLayout(new GridLayout(3, 2)); // create a 3x2 grid
                 ImageIcon imgBasil = new ImageIcon("src/images/basil.png");
@@ -288,7 +289,7 @@ public class GardenSystem {
                 addBtn.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         String textValue = txtAdd.getText();
-                        
+
                         if (textValue.isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Please select a plant!");
                             return;
@@ -308,7 +309,7 @@ public class GardenSystem {
                 panel.add(imgLabel4);
                 panel.add(txtAdd);
                 panel.add(addBtn);
-                
+
                 // add a WindowListener to handle the closing event
                 plantFrame.addWindowListener(new WindowAdapter() {
                     public void windowClosing(WindowEvent e) {
@@ -328,13 +329,13 @@ public class GardenSystem {
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = new JFrame("Plant list");
                 DefaultListModel<String> listModel = new DefaultListModel<>();
-                
+
                 for (Plant plant : garden.plants) {
-                   listModel.addElement(plant.getName());
+                    listModel.addElement(plant.getName());
                 }
                 JList<String> list = new JList<>(listModel);
 
-                JPanel p1 =new JPanel();
+                JPanel p1 = new JPanel();
                 JButton removeBtn = new JButton("Remove");
 
                 removeBtn.addActionListener(new ActionListener() {
@@ -344,7 +345,7 @@ public class GardenSystem {
                             JOptionPane.showMessageDialog(null, "Select plant to remove!");
                             return;
                         }
-                        
+
                         for (Plant plant : garden.plants) {
                             if (selectedValue.equalsIgnoreCase(plant.getName())) {
                                 garden.removePlant(plant);
@@ -355,7 +356,7 @@ public class GardenSystem {
                     }
                 });
 
-                p1.setLayout(new GridLayout(2,2)); // create a 3x2 grid
+                p1.setLayout(new GridLayout(2, 2)); // create a 3x2 grid
                 p1.add(list);
                 p1.add(removeBtn);
 
@@ -366,7 +367,7 @@ public class GardenSystem {
                         mainFrame.setVisible(true);
                     }
                 });
-                
+
                 frame.add(p1);
                 frame.setSize(300, 200);
                 frame.setVisible(true);
@@ -379,18 +380,18 @@ public class GardenSystem {
         // Refresh every 5 seconds
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
-        @Override
+            @Override
             public void run() {
                 mainPanel.removeAll();
                 int i = 0;
                 if (garden.plants.size() > 0) {
                     for (Plant plant : garden.plants) {
-                        int width = 100; 
+                        int width = 100;
                         ImageIcon imgCon = new ImageIcon("src/images/" + plant.getName() + ".png");
-                        Image img = imgCon.getImage(); 
+                        Image img = imgCon.getImage();
                         Image scaledImg = img.getScaledInstance(width, -1, Image.SCALE_SMOOTH);
-                        ImageIcon scaledImgIcon = new ImageIcon(scaledImg); 
-        
+                        ImageIcon scaledImgIcon = new ImageIcon(scaledImg);
+
                         JLabel label = new JLabel(plant.getName());
                         label.setIcon(scaledImgIcon);
                         label.setBounds(50 + i * 20, 50 + (i * 50), 100, 30);
@@ -403,14 +404,74 @@ public class GardenSystem {
                 garden.displayGardenStatus();
             }
         };
-        timer.schedule(task, 0, 5000);
+        // Add four dirt plots
+        JLabel dirtPlot1 = new JLabel();
+        dirtPlot1.setPreferredSize(new Dimension(100, 100));
+        dirtPlot1.setOpaque(true);
+        dirtPlot1.setBackground(new Color(244, 164, 96));
+        JLabel dirtPlot2 = new JLabel();
+        dirtPlot2.setPreferredSize(new Dimension(100, 100));
+        dirtPlot2.setOpaque(true);
+        dirtPlot2.setBackground(new Color(210, 105, 30));
+        JLabel dirtPlot3 = new JLabel();
+        dirtPlot3.setPreferredSize(new Dimension(100, 100));
+        dirtPlot3.setOpaque(true);
+        dirtPlot3.setBackground(new Color(139, 69, 19));
+        JLabel dirtPlot4 = new JLabel();
+        dirtPlot4.setPreferredSize(new Dimension(100, 100));
+        dirtPlot4.setOpaque(true);
+        dirtPlot4.setBackground(new Color(101, 67, 33));
 
+        JPanel gardenPanel = new JPanel();
+        mainPanel.add(gardenPanel, BorderLayout.SOUTH);
+        gardenPanel.setLayout(new GridLayout(1, 4)); // set layout to 1 row and 4 columns
+        gardenPanel.add(dirtPlot1);
+        gardenPanel.add(dirtPlot2);
+        gardenPanel.add(dirtPlot3);
+        gardenPanel.add(dirtPlot4);
+
+        // Refresh every 5 seconds
+        Timer timer1 = new Timer();
+        TimerTask task1 = new TimerTask() {
+            @Override
+            public void run() {
+                mainPanel.removeAll();
+                int i = 0;
+                if (garden.plants.size() > 0) {
+                    for (Plant plant : garden.plants) {
+                        int width = 100;
+                        ImageIcon imgCon = new ImageIcon("src/images/" + plant.getName() + ".png");
+                        Image img = imgCon.getImage();
+                        Image scaledImg = img.getScaledInstance(width, -1, Image.SCALE_SMOOTH);
+                        ImageIcon scaledImgIcon = new ImageIcon(scaledImg);
+                        JLabel label = new JLabel(plant.getName());
+                        label.setIcon(scaledImgIcon);
+                        label.setBounds(50 + i * 20, 50 + (i * 50), 100, 30);
+                        label.setBorder(BorderFactory.createEmptyBorder(10, 10 + (1 * 20), 10, 10));
+                        mainPanel.add(label);
+                        i++;
+                    }
+                } else {
+                    gardenPanel.add(dirtPlot1);
+                    gardenPanel.add(dirtPlot2);
+                    gardenPanel.add(dirtPlot3);
+                    gardenPanel.add(dirtPlot4);
+                }
+                garden.simulateDay();
+                garden.displayGardenStatus();
+                mainPanel.revalidate(); // redraw the panel
+            }
+        };
+        timer.schedule(task, 0, 5000);
         JLabel background = new JLabel(Icon);
         mainFrame.add(background);
         mainFrame.getContentPane().add(BorderLayout.NORTH, mb);
         background.setLayout(new GridBagLayout());
         background.add(mainPanel);
         mainFrame.setVisible(true);
+        Object GridBagConstraints = new Object();
+        background.add(mainPanel, GridBagConstraints);
+
     }
 
     private static void showLogs(LoggingSystem loggingSystem, Scanner scanner) {

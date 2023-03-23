@@ -79,6 +79,12 @@ class Garden {
         for (Plant plant : plants) {
             System.out.println(plant.getName() + " - Age: " + plant.getAge());
         }
+        for (Plant plant : plants) {
+            System.out.println(plant.getWaterLevel() + " - Water Level: " + plant.getWaterLevel());
+        }
+        for (Plant plant : plants) {
+            System.out.println(plant.getSunlightLevel() + " - Sunlight Level: " + plant.getSunlightLevel());
+        }
         System.out.println("Insects:");
         for (Insect insect : insects) {
             System.out.println(insect.getName() + " - Age: " + insect.getAge());
@@ -98,51 +104,51 @@ class Garden {
     }
 
     public void simulateDay() {
-        // define the range
-        int max = 2;
-        int min = 1;
-        int range = max - min + 1;
-        // generate random numbers within 1 to 10
-        int rand = 0;
-        for (int i = 0; i < 10; i++) {
-            rand = (int) (Math.random() * range) + min;
-            for (Plant plant : plants) {
-                if (plant.getName().equals("Lemongrass")) {
-                    // Lemongrass evolve faster than other insects
-                    plant.age = Age.values()[(plant.getAge().ordinal() + rand) % Age.values().length];
-                } else if (plant.getName().equals("Cilantro")) {
-                    // Cilantro evolve faster than other insects
-                    plant.age = Age.values()[(plant.getAge().ordinal() + rand) % Age.values().length];
-                } else if (plant.getName().equals("Basil")) {
-                    // Cilantro evolve faster than other insects
-                    plant.age = Age.values()[(plant.getAge().ordinal() + rand) % Age.values().length];
-                } else if (plant.getName().equals("Basil")) {
-                    // Cilantro evolve faster than other insects
-                    plant.age = Age.values()[(plant.getAge().ordinal() + rand) % Age.values().length];
-                    // Other insects evolve normally
-                    plant.grow();
-                }
-                for (Insect insect : insects) {
-                    if (insect.getName().equals("Locust")) {
-                        // Locust evolve faster than other insects
-                        insect.age = Age.values()[(insect.getAge().ordinal() + rand) % Age.values().length];
-                    } else if (insect.getName().equals("Worm")) {
-                        // Worms evolve faster than other insects
-                        insect.age = Age.values()[(insect.getAge().ordinal() + rand) % Age.values().length];
-                    } else if (insect.getName().equals("Spider Mite")) {
-                        // Worms evolve faster than other insects
-                        insect.age = Age.values()[(insect.getAge().ordinal() + rand) % Age.values().length];
-                    } else {
-                        // Other insects evolve normally
-                        insect.grow();
-                    }
-                }
-                sunlightSystem.simulateSunlight();
-                wateringSystem.executeWatering();
+        Map<String, Integer> plantEvolutionRates = new HashMap<>();
+        plantEvolutionRates.put("Lemongrass", 1);
+        plantEvolutionRates.put("Cilantro", 2);
+        plantEvolutionRates.put("Basil", 3);
+        plantEvolutionRates.put("Mint", 4);
+
+        Map<String, Integer> insectEvolutionRates = new HashMap<>();
+        insectEvolutionRates.put("Locust", 1);
+        insectEvolutionRates.put("Worm", 2);
+        insectEvolutionRates.put("Spider Mite", 3);
+        insectEvolutionRates.put("Beetle", 4);
+
+        int minEvolutionRate = 1;
+        int maxEvolutionRate = 4;
+
+        int plantEvolutionRate;
+        int insectEvolutionRate;
+
+        for (Plant plant : plants) {
+            plantEvolutionRate = plantEvolutionRates.getOrDefault(plant.getName(), 1);
+            insectEvolutionRate = insectEvolutionRates.getOrDefault(plant.getName(), 1);
+
+            int rand = (int) (Math.random() * (maxEvolutionRate - minEvolutionRate + 1)) + minEvolutionRate;
+            if (plantEvolutionRate > rand) {
+                plant.age = Age.values()[(plant.getAge().ordinal() + 1) % Age.values().length];
             }
+            plant.grow();
         }
+
+        for (Insect insect : insects) {
+            plantEvolutionRate = plantEvolutionRates.getOrDefault(insect.getName(), 1);
+            insectEvolutionRate = insectEvolutionRates.getOrDefault(insect.getName(), 1);
+
+            int rand = (int) (Math.random() * (maxEvolutionRate - minEvolutionRate + 1)) + minEvolutionRate;
+            if (insectEvolutionRate > rand) {
+                insect.age = Age.values()[(insect.getAge().ordinal() + 1) % Age.values().length];
+            }
+            insect.grow();
+        }
+
+        sunlightSystem.simulateSunlight();
+        wateringSystem.executeWatering();
     }
 }
+
 
 //public String getDaySummary() {
         // Return a string that represents the summary of what happened in the garden during the simulation.

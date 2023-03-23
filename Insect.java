@@ -20,8 +20,7 @@ class Insect extends LivingOrg {
     public void reproduce() {
         int offspring = (int) Math.floor(reproductionRate);
         for (int i = 0; i < offspring; i++) {
-            // You will need to update the way new insects are added to the garden.
-            // The current implementation does not support this.
+
         }
     }
 

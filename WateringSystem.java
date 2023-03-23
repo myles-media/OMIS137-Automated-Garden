@@ -1,6 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
-
+//NOTE: Watering System has been redacted from main program. This class has been kept for documentation purposes
 class WateringSystem {
     Garden garden;
     Map<Plant, Integer> schedule;

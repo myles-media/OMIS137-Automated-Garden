@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 class Garden {
     List<Plant> plants;
     List<Insect> insects;
-    List<Sprinkler> sprinklers;
     WateringSystem wateringSystem;
     SunlightSystem sunlightSystem;
     long startTime;
@@ -15,7 +14,6 @@ class Garden {
     public Garden() {
         plants = new ArrayList<>();
         insects = new ArrayList<>();
-        sprinklers = new ArrayList<>();
         startTime = System.nanoTime();
         wateringSystem = new WateringSystem(this);
         sunlightSystem = new SunlightSystem(this);
@@ -45,9 +43,6 @@ class Garden {
         insects.add(insect);
     }
 
-    public void addSprinkler(Sprinkler sprinkler) {
-        sprinklers.add(sprinkler);
-    }
 
 
     public void displayGardenStatus() {
@@ -76,9 +71,6 @@ class Garden {
         insects.remove(insect);
     }
 
-    public void removeSprinkler(Sprinkler sprinkler) {
-        sprinklers.remove(sprinkler);
-    }
 
     public void simulateDay() {
         Map<String, Integer> plantEvolutionRates = new HashMap<>();

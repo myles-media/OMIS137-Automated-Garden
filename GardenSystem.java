@@ -43,10 +43,6 @@ public class GardenSystem {
         // Initialize the garden
         garden = new Garden();
 
-        // Add plants, insects, sprinklers, and sensors to the garden
-        // Plant mint1 = new Mint("Mint");
-        // garden.addPlant(mint1);
-
         Insect beetle1 = new Beetle("Beetle");
         Insect locust1 = new Locust("Locust");
         Insect spiderMites1 = new SpiderMite("Spider Mite");
@@ -55,11 +51,6 @@ public class GardenSystem {
         garden.addInsect(locust1);
         garden.addInsect(spiderMites1);
         garden.addInsect(worm1);
-        
-        Sprinkler sprinkler1 = new Sprinkler(new Point(0, 0), 10, 2);
-        Sprinkler sprinkler2 = new Sprinkler(new Point(10, 10), 5, 1.5);
-        garden.addSprinkler(sprinkler1);
-        garden.addSprinkler(sprinkler2);
 
         // Initialize the garden systems
         wateringSystem = garden.getWateringSystem();
@@ -87,7 +78,6 @@ public class GardenSystem {
         JMenuItem PlantlistMnuItm = new JMenuItem("List of Plants");
 
         JMenuItem optionMnuItm1 = new JMenuItem("Garden status");
-        //JMenuItem optionMnuItm2 = new JMenuItem("Watering schedule");
         JMenuItem optionMnuItm3 = new JMenuItem("Sunlight schedule");
         JMenuItem optionMnuItm4 = new JMenuItem("Logs");
         JMenuItem optionMnuItm5 = new JMenuItem("Date & Time");
@@ -99,7 +89,6 @@ public class GardenSystem {
         plantMnu.add(plantAddMnuItm);
         plantMnu.add(PlantlistMnuItm);
         optionMnu.add(optionMnuItm1);
-        //optionMnu.add(optionMnuItm2);
         optionMnu.add(optionMnuItm3);
         optionMnu.add(optionMnuItm4);
         optionMnu.add(optionMnuItm5);
@@ -110,12 +99,6 @@ public class GardenSystem {
                 showGardenStatus();
             }
         });
-
-        // watering schedule
-        /*optionMnuItm2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {showWateringSchedule();}
-
-        });*/
 
         optionMnuItm3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -235,26 +218,6 @@ public class GardenSystem {
         frame.setSize(400, 200);
         frame.setVisible(true);
     }
-
-    /*private static void showWateringSchedule() {
-        JFrame frame = new JFrame("Watering Schedule");
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-
-
-        for (Plant plant : garden.plants) {
-            listModel.addElement(plant.getName()+ " has: " + plant.getWaterLevel() + " units of water.");
-            double requiredWater = (plant.getWaterRequirement() - plant.getWaterLevel());
-            listModel.addElement("It needs: " + requiredWater + " more units");
-            listModel.addElement("-------------------------------------------------");
-        }
-        JList<String> list = new JList<>(listModel);
-
-        JPanel panel = new JPanel();
-        panel.add(list);
-        frame.add(panel);
-        frame.setSize(400, 200);
-        frame.setVisible(true);
-    }*/
 
     private static void showSunLightSchedule() {
         JFrame frame = new JFrame("Sunlight schedule");

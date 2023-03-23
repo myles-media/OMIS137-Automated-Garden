@@ -75,7 +75,7 @@ public class GardenSystem {
         mb = new JMenuBar();
         fileMnu = new JMenu("FILE");
         plantMnu = new JMenu("PLANTS");
-        optionMnu = new JMenu("OPTION");
+        optionMnu = new JMenu("MENU");
 
         mb.add(fileMnu);
         mb.add(plantMnu);
@@ -110,9 +110,8 @@ public class GardenSystem {
 
         // watering schedule
         optionMnuItm2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                showWateringSchedule();
-            }
+            public void actionPerformed(ActionEvent e) {showWateringSchedule();}
+
         });
 
         optionMnuItm3.addActionListener(new ActionListener() {
@@ -204,6 +203,7 @@ public class GardenSystem {
     private static void showWateringSchedule() {
         JFrame frame = new JFrame("Watering Schedule");
         DefaultListModel<String> listModel = new DefaultListModel<>();
+
 
         for (Plant plant : garden.plants) {
             listModel.addElement(plant.getName()+ " has: " + plant.getWaterLevel() + " units of water.");
@@ -398,22 +398,22 @@ public class GardenSystem {
         }
         
         JPanel panel = new JPanel();
-        JButton removeBtn = new JButton("Remove");
+        JButton removeBtn = new JButton("Harvest");
         
         removeBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int row = table.getSelectedRow();
                 String selectedValue = (String) table.getValueAt(row, 0);
                 if (selectedValue == null) {
-                    JOptionPane.showMessageDialog(null, "Select plant to remove!");
+                    JOptionPane.showMessageDialog(null, "Select plant to Harvest!");
                     return;
                 }
                 
                 for (Plant plant : garden.plants) {
                     if (selectedValue.equalsIgnoreCase(plant.getName())) {
                         garden.removePlant(plant);
-                        loggingSystem.addLog("Remove plant " + plant.getName(), "plant");
-                        JOptionPane.showMessageDialog(null, plant.getName() + " successfully removed !");
+                        loggingSystem.addLog("Harvest plant " + plant.getName(), "plant");
+                        JOptionPane.showMessageDialog(null, plant.getName() + " successfully harvested !");
                         DefaultTableModel model = (DefaultTableModel) table.getModel(); // Assuming table is your JTable object
                         int selectedRow = table.getSelectedRow();
                         if (selectedRow != -1) { // Make sure a row is actually selected
@@ -464,7 +464,3 @@ public class GardenSystem {
         garden.displayGardenStatus();
     }
 }
-
-
-
-

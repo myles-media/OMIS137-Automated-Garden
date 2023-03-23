@@ -49,29 +49,6 @@ class Garden {
         sprinklers.add(sprinkler);
     }
 
-   /* public void updateGarden() {
-        // Remove dead plants
-        plants.removeIf(plant -> plant.getHealth() <= 0);
-
-        // Check for plant-insect interactions
-        for (Plant plant : plants) {
-            for (Insect insect : insects) {
-                if (plant.getHealth() > 0 && insect.getHealth() > 0 && plant.interactsWith(insect)) {
-                    plant.setHealth(plant.getHealth() - insect.getDamage());
-                    insect.setHealth(insect.getHealth() - plant.getDamage());
-                }
-            }
-        }
-
-        // Water plants with sprinklers
-        for (Sprinkler sprinkler : sprinklers) {
-            List<Plant> plantsToWater = sprinkler.getPlantsInRange(plants);
-            for (Plant plant : plantsToWater) {
-                plant.setHealth(plant.getHealth() + 1);
-            }
-        }
-    }*/
-
 
     public void displayGardenStatus() {
         System.out.println("Garden Status:");
@@ -123,6 +100,12 @@ class Garden {
         int insectEvolutionRate;
 
         for (Plant plant : plants) {
+            double waterLevel = plant.getWaterLevel();
+            double addWater = Math.random() * 5;
+            plant.setWaterLevel(waterLevel);
+        }
+
+        for (Plant plant : plants) {
             plantEvolutionRate = plantEvolutionRates.getOrDefault(plant.getName(), 1);
             insectEvolutionRate = insectEvolutionRates.getOrDefault(plant.getName(), 1);
 
@@ -144,14 +127,10 @@ class Garden {
             insect.grow();
         }
 
+
         sunlightSystem.simulateSunlight();
         wateringSystem.executeWatering();
     }
 }
-
-
-//public String getDaySummary() {
-        // Return a string that represents the summary of what happened in the garden during the simulation.
-        // This should include plant growth, insect activity, watering, and sunlight.
 
 

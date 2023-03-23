@@ -3,29 +3,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-// Parent classes
+
+// New enum class
+enum Age {
+    YOUNG, MATURE, ELDER
+}
+
+// Parent class
 
 abstract class LivingOrg {
     protected String name;
-    public double simulationDays;
-    public double age;
-
-    protected double lifespan;
+    protected Age age;
     protected boolean isAlive;
     protected String type;
     protected double damage;
 
     public void grow() {
-        age++;
+        if (age == Age.ELDER) {
+            isAlive = false;
+        } else {
+            age = Age.values()[age.ordinal() + 1];
+        }
     }
-
-    private Object simulationDays() {
-        return simulationDays;
-    }
-
 
     public boolean checkAlive() {
-        if (age >= lifespan) {
+        if (age == Age.ELDER) {
             isAlive = false;
         }
         return isAlive;
@@ -39,15 +41,16 @@ abstract class LivingOrg {
         return name;
     }
 
-    public double getAge() {
+    public Age getAge() {
         return age;
     }
+
     public double getDamage() {
         return damage;
     }
 
     public void tick() {
-        age++;
+        age = Age.values()[age.ordinal() + 1];
         checkAlive();
     }
 }

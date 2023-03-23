@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.List;
 
 public class GardenSystem {
     private static LocalDateTime simulationStartTime = LocalDateTime.now();
@@ -22,8 +21,8 @@ public class GardenSystem {
 
         Insect beetle1 = new Beetle("Beetle");
         Insect locust1 = new Locust("Locust");
-        Insect spiderMites1 = new SpiderMites("Spider Mites");
-        Insect worm1 = new Worms("Worm");
+        Insect spiderMites1 = new SpiderMite("Spider Mite");
+        Insect worm1 = new Worm("Worm");
         garden.addInsect(beetle1);
         garden.addInsect(locust1);
         garden.addInsect(spiderMites1);
@@ -35,8 +34,9 @@ public class GardenSystem {
         garden.addSprinkler(sprinkler2);
 
         // Initialize the garden systems
-        WateringSystem wateringSystem = new WateringSystem(garden);
-        SunlightSystem sunlightSystem = new SunlightSystem(garden);
+        WateringSystem wateringSystem = garden.getWateringSystem();
+        SunlightSystem sunlightSystem = garden.getSunlightSystem();
+
 
         // Initialize the logging system
         LoggingSystem loggingSystem = new LoggingSystem();
@@ -44,6 +44,7 @@ public class GardenSystem {
         // Main loop
         Scanner scanner = new Scanner(System.in);
         while (true) {
+            garden.simulateDay();
             // Display the main menu
             System.out.println("\n==============================");
             System.out.println("== Garden System Main Menu ==");
@@ -66,7 +67,7 @@ public class GardenSystem {
                     garden.displayGardenStatus();
                     break;
                 case 2:
-                    System.out.println(wateringSystem.getWateringSchedule());
+                    wateringSystem.displayWateringSystem();
                     break;
                 case 3:
                     sunlightSystem.displaySunlightSchedule();

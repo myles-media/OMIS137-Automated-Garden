@@ -3,6 +3,5 @@ class Lemongrass extends Plant {
         super(name);
         this.waterRequirement = 1.4;
         this.sunlightRequirement = 8;
-        this.lifespan = 5 * 365;
     }
 }

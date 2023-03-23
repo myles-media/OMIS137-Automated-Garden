@@ -17,8 +17,19 @@ class Garden {
         insects = new ArrayList<>();
         sprinklers = new ArrayList<>();
         startTime = System.nanoTime();
-
+        wateringSystem = new WateringSystem(this);
+        sunlightSystem = new SunlightSystem(this);
     }
+
+    public WateringSystem getWateringSystem() {
+        return wateringSystem;
+    }
+
+    public SunlightSystem getSunlightSystem() {
+        return sunlightSystem;
+    }
+
+
     public double simulationDays() {
         long elapsedTime = System.nanoTime() - startTime;
         long elapsedHours = TimeUnit.NANOSECONDS.toSeconds(elapsedTime);
@@ -66,12 +77,10 @@ class Garden {
         System.out.println("Garden Status:");
         System.out.println("Plants:");
         for (Plant plant : plants) {
-            plant.age = simulationDays();
             System.out.println(plant.getName() + " - Age: " + plant.getAge());
         }
         System.out.println("Insects:");
         for (Insect insect : insects) {
-            insect.age = simulationDays();
             System.out.println(insect.getName() + " - Age: " + insect.getAge());
         }
     }
@@ -89,15 +98,22 @@ class Garden {
     }
 
 
-
     public void simulateDay() {
         for (Plant plant : plants) {
-            plant.tick();
+            plant.grow();
         }
         for (Insect insect : insects) {
-            insect.tick();
+            if (insect.getName().equals("Locust")) {
+                // Locust evolve faster than other insects
+                insect.age = Age.values()[(insect.getAge().ordinal() + 2) % Age.values().length];
+            } else if (insect.getName().equals("Worm")) {
+                // Worms evolve faster than other insects
+                insect.age = Age.values()[(insect.getAge().ordinal() + 4) % Age.values().length];
+            } else {
+                // Other insects evolve normally
+                insect.grow();
+            }
         }
-        //updateGarden();
         sunlightSystem.simulateSunlight();
         wateringSystem.executeWatering();
     }

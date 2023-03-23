@@ -1,10 +1,12 @@
 class Insect extends LivingOrg {
     protected double damage;
+    protected double lifespan;
     protected double reproductionRate;
 
     public Insect(String name) {
         this.name = name;
-        this.age = 0;
+        this.age = Age.YOUNG;
+        this.lifespan = 5;
         this.isAlive = true;
         this.type = "Insect";
     }

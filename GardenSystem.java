@@ -87,7 +87,7 @@ public class GardenSystem {
         JMenuItem PlantlistMnuItm = new JMenuItem("List of Plants");
 
         JMenuItem optionMnuItm1 = new JMenuItem("Garden status");
-        JMenuItem optionMnuItm2 = new JMenuItem("Watering schedule");
+        //JMenuItem optionMnuItm2 = new JMenuItem("Watering schedule");
         JMenuItem optionMnuItm3 = new JMenuItem("Sunlight schedule");
         JMenuItem optionMnuItm4 = new JMenuItem("Logs");
         JMenuItem optionMnuItm5 = new JMenuItem("Date & Time");
@@ -99,7 +99,7 @@ public class GardenSystem {
         plantMnu.add(plantAddMnuItm);
         plantMnu.add(PlantlistMnuItm);
         optionMnu.add(optionMnuItm1);
-        optionMnu.add(optionMnuItm2);
+        //optionMnu.add(optionMnuItm2);
         optionMnu.add(optionMnuItm3);
         optionMnu.add(optionMnuItm4);
         optionMnu.add(optionMnuItm5);
@@ -112,10 +112,10 @@ public class GardenSystem {
         });
 
         // watering schedule
-        optionMnuItm2.addActionListener(new ActionListener() {
+        /*optionMnuItm2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {showWateringSchedule();}
 
-        });
+        });*/
 
         optionMnuItm3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -236,7 +236,7 @@ public class GardenSystem {
         frame.setVisible(true);
     }
 
-    private static void showWateringSchedule() {
+    /*private static void showWateringSchedule() {
         JFrame frame = new JFrame("Watering Schedule");
         DefaultListModel<String> listModel = new DefaultListModel<>();
 
@@ -254,7 +254,7 @@ public class GardenSystem {
         frame.add(panel);
         frame.setSize(400, 200);
         frame.setVisible(true);
-    }
+    }*/
 
     private static void showSunLightSchedule() {
         JFrame frame = new JFrame("Sunlight schedule");

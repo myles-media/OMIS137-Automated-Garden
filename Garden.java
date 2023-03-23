@@ -126,6 +126,11 @@ class Garden {
             }
             insect.grow();
         }
+        for (Plant plant : plants) {
+            plant.grow();
+            plant.resetSunlightAndWaterLevels(sunlightSystem.getSunlightHours());
+        }
+
 
 
         sunlightSystem.simulateSunlight();

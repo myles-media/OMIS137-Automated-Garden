@@ -23,7 +23,7 @@ public class GardenSystem {
 
         // Add plants, insects, sprinklers, and sensors to the garden
         // Plant mint1 = new Mint("Mint");
-        // Plant cilantro1 = new Cilantro("Cilantro");
+        //Plant cilantro1 = new Cilantro("Cilantro");
         // Plant basil1 = new Basil("Basil");
         // Plant lemongrass1 = new Lemongrass("Lemongrass");
         // garden.addPlant(mint1);
@@ -55,7 +55,7 @@ public class GardenSystem {
         //Creating the Frame
         JFrame mainFrame = new JFrame("Garden System");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(600, 400);
+        mainFrame.setSize(800, 400);
 
         //Creating the MenuBar and adding components
         JMenuBar mb = new JMenuBar();
@@ -326,7 +326,7 @@ public class GardenSystem {
         // List of plants
         PlantlistMnuItm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame plantFrame = new JFrame("Plant list");
+                JFrame frame = new JFrame("Plant list");
                 DefaultListModel<String> listModel = new DefaultListModel<>();
                 
                 for (Plant plant : garden.plants) {
@@ -335,7 +335,6 @@ public class GardenSystem {
                 JList<String> list = new JList<>(listModel);
 
                 JPanel p1 =new JPanel();
-                JLabel label = new JLabel("Plant List");
                 JButton removeBtn = new JButton("Remove");
 
                 removeBtn.addActionListener(new ActionListener() {
@@ -346,21 +345,31 @@ public class GardenSystem {
                             return;
                         }
                         
-                        Plant thisPlant = new Plant(selectedValue);
-                        garden.removePlant(thisPlant);
-
-                        JOptionPane.showMessageDialog(null, thisPlant.getName());
-                        garden.displayGardenStatus();
+                        for (Plant plant : garden.plants) {
+                            if (selectedValue.equalsIgnoreCase(plant.getName())) {
+                                garden.removePlant(plant);
+                                loggingSystem.addLog("Remove plant " + plant.getName(), "plant");
+                                JOptionPane.showMessageDialog(null, plant.getName() + " successfully removed !");
+                            }
+                        }
                     }
                 });
 
-                p1.add(label);
+                p1.setLayout(new GridLayout(2,2)); // create a 3x2 grid
                 p1.add(list);
                 p1.add(removeBtn);
+
+                // add a WindowListener to handle the closing event
+                frame.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e) {
+                        mainFrame.getContentPane();
+                        mainFrame.setVisible(true);
+                    }
+                });
                 
-                plantFrame.add(p1, BorderLayout.NORTH);
-                plantFrame.setSize(300, 150);
-                plantFrame.setVisible(true);
+                frame.add(p1);
+                frame.setSize(300, 200);
+                frame.setVisible(true);
             }
         });
 
@@ -382,7 +391,8 @@ public class GardenSystem {
                         Image scaledImg = img.getScaledInstance(width, -1, Image.SCALE_SMOOTH);
                         ImageIcon scaledImgIcon = new ImageIcon(scaledImg); 
         
-                        JLabel label = new JLabel(scaledImgIcon);
+                        JLabel label = new JLabel(plant.getName());
+                        label.setIcon(scaledImgIcon);
                         label.setBounds(50 + i * 20, 50 + (i * 50), 100, 30);
                         label.setBorder(BorderFactory.createEmptyBorder(10, 10 + (1 * 20), 10, 10));
                         mainPanel.add(label);

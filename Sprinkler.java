@@ -32,4 +32,3 @@ class Sprinkler {
         this.waterOutput = waterOutput;
     }
 }
-

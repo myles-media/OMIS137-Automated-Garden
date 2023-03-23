@@ -117,4 +117,9 @@ class Garden {
         sunlightSystem.simulateSunlight();
         wateringSystem.executeWatering();
     }
-}
+
+    //public String getDaySummary() {
+        // Return a string that represents the summary of what happened in the garden during the simulation.
+        // This should include plant growth, insect activity, watering, and sunlight.
+    }
+

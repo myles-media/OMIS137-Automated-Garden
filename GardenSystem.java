@@ -45,6 +45,10 @@ public class GardenSystem {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             garden.simulateDay();
+
+            //String daySummary = garden.getDaySummary(); // Get the summary of the day's events
+            //loggingSystem.addLog(daySummary, "simulation"); // Add a log entry for the day's events
+
             // Display the main menu
             System.out.println("\n==============================");
             System.out.println("== Garden System Main Menu ==");

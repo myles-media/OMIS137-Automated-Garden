@@ -1,11 +1,14 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
 //import java.awt.*;
+import javax.swing.border.Border;
 
 public class GardenSystem {
     private static LocalDateTime simulationStartTime = LocalDateTime.now();
@@ -46,50 +49,6 @@ public class GardenSystem {
         // Initialize the logging system
         LoggingSystem loggingSystem = new LoggingSystem();
 
-        // Main loop
-        // Scanner scanner = new Scanner(System.in);
-        // while (true) {
-        //     // Display the main menu
-        //     System.out.println("\n==============================");
-        //     System.out.println("== Garden System Main Menu ==");
-        //     System.out.println("==============================");
-        //     System.out.println("1. Display garden status");
-        //     System.out.println("2. Show watering schedule");
-        //     System.out.println("3. Show sunlight schedule");
-        //     System.out.println("4. Show logs");
-        //     System.out.println("5. Date & Time");
-        //     System.out.println("6. Exit");
-        //     System.out.print("Enter choice: ");
-
-        //     // Get user input
-        //     int choice = scanner.nextInt();
-        //     scanner.nextLine();  // Consume the newline character
-
-        //     // Process user choice
-        //     switch (choice) {
-        //         case 1:
-        //             garden.displayGardenStatus();
-        //             break;
-        //         case 2:
-        //             System.out.println(wateringSystem.getWateringSchedule());
-        //             break;
-        //         case 3:
-        //             sunlightSystem.displaySunlightSchedule();
-        //             break;
-        //         case 4:
-        //             showLogs(loggingSystem, scanner);
-        //             break;
-        //         case 5:
-        //             System.out.println("Simulation has been running for " + garden.simulationDays() + " days.");
-        //             break;
-        //         case 6:
-        //             System.out.println("Exiting garden system. Goodbye!");
-        //             return;
-        //         default:
-        //             System.out.println("Invalid choice. Please try again.");
-        //     }
-        // }
-
         //Creating the Frame
         JFrame frame = new JFrame("Garden System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,17 +76,125 @@ public class GardenSystem {
         addMnuItm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame plantFrame = new JFrame("Add plant");
-                JPanel p1 = new JPanel();
-                JLabel label = new JLabel("Enter Plant Name: ");
                 JTextField txtAdd = new JTextField(null,10); // accepts upto 10 characters
-                JButton addBtn = new JButton("Add");
+                JButton addBtn = new JButton("Add to garden");
+                
+                JPanel panel = new JPanel();
+                panel.setLayout(new GridLayout(3, 2)); // create a 3x2 grid
+                ImageIcon imgBasil = new ImageIcon("src/images/basil.png");
+                ImageIcon imgcilan = new ImageIcon("src/images/cilantro.png");
+                ImageIcon imgLemon = new ImageIcon("src/images/lemongrass.png");
+                ImageIcon imgMint = new ImageIcon("src/images/mint.png");
+
+                int width = 100; // set desired width
+                Image image1 = imgBasil.getImage(); // get image from icon
+                Image scaledImgBasil = image1.getScaledInstance(width, -1, Image.SCALE_SMOOTH); // scale the image
+                ImageIcon scaledIconBasil = new ImageIcon(scaledImgBasil); // create new ImageIcon with scaled image
+
+                Image image2 = imgcilan.getImage(); // get image from icon
+                Image scaledImgcilan = image2.getScaledInstance(width, -1, Image.SCALE_SMOOTH); // scale the image
+                ImageIcon scaledIconCilan = new ImageIcon(scaledImgcilan); // create new ImageIcon with scaled image
+
+                Image image3 = imgLemon.getImage(); // get image from icon
+                Image scaledImgLemon = image3.getScaledInstance(width, -1, Image.SCALE_SMOOTH); // scale the image
+                ImageIcon scaledIconLemon = new ImageIcon(scaledImgLemon); // create new ImageIcon with scaled image
+
+                Image image = imgMint.getImage(); // get image from icon
+                Image scaledImgMint = image.getScaledInstance(width, -1, Image.SCALE_SMOOTH); // scale the image
+                ImageIcon scaledIconMint = new ImageIcon(scaledImgMint); // create new ImageIcon with scaled image
+
+                JLabel imgLabel1 = new JLabel(scaledIconBasil);
+                imgLabel1.setName("Basil");
+                JLabel imgLabel2 = new JLabel(scaledIconCilan);
+                imgLabel2.setName("Cilantro");
+                JLabel imgLabel3 = new JLabel(scaledIconLemon);
+                imgLabel3.setName("Lemongrass");
+                JLabel imgLabel4 = new JLabel(scaledIconMint);
+                imgLabel4.setName("Mint");
+
+                // Add a border to the JLabel
+                Border border = BorderFactory.createLineBorder(null, 0);
+                imgLabel1.setBorder(border);
+
+                // Add a mouse listener to the JLabel to change the border on mouse hover
+                imgLabel1.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        imgLabel1.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        imgLabel1.setBorder(border);
+                    }
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        txtAdd.setText("");
+                        txtAdd.setText(imgLabel1.getName());
+                    }
+                });
+
+                imgLabel2.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        imgLabel2.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        imgLabel2.setBorder(border);
+                    }
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        txtAdd.setText("");
+                        txtAdd.setText(imgLabel2.getName());
+                    }
+                });
+
+                imgLabel3.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        imgLabel3.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        imgLabel3.setBorder(border);
+                    }
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        txtAdd.setText("");
+                        txtAdd.setText(imgLabel3.getName());
+                    }
+                });
+
+                imgLabel4.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        imgLabel4.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        imgLabel4.setBorder(border);
+                    }
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        txtAdd.setText("");
+                        txtAdd.setText(imgLabel4.getName());
+                    }
+                });
 
                 addBtn.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         String textValue = txtAdd.getText();
                         
                         if (textValue.isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "Please input plant name!");
+                            JOptionPane.showMessageDialog(null, "Please select a plant!");
                             return;
                         }
 
@@ -137,12 +204,17 @@ public class GardenSystem {
                         JOptionPane.showMessageDialog(null, "Plant successfully added!");
                     }
                 });
-                p1.add(label);
-                p1.add(txtAdd);
-                p1.add(addBtn);
+
+                panel.add(imgLabel1);
+                panel.add(imgLabel2);
+                panel.add(imgLabel3);
+                panel.add(imgLabel4);
+                panel.add(txtAdd);
+                panel.add(addBtn);
                 
-                plantFrame.add(p1, BorderLayout.NORTH);
-                plantFrame.setSize(400, 150);
+                plantFrame.add(panel, BorderLayout.NORTH);
+                //plantFrame.add(panel, BorderLayout.SOUTH);
+                plantFrame.setSize(500, 350);
                 plantFrame.setVisible(true);
             }
         });

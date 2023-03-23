@@ -8,7 +8,6 @@ class Garden {
     List<Plant> plants;
     List<Insect> insects;
     List<Sprinkler> sprinklers;
-    List<Sensor> sensors;
     WateringSystem wateringSystem;
     SunlightSystem sunlightSystem;
     long startTime;
@@ -17,7 +16,6 @@ class Garden {
         plants = new ArrayList<>();
         insects = new ArrayList<>();
         sprinklers = new ArrayList<>();
-        sensors = new ArrayList<>();
         startTime = System.nanoTime();
 
     }
@@ -39,12 +37,29 @@ class Garden {
         sprinklers.add(sprinkler);
     }
 
-    public void addSensor(Sensor sensor) {
-        sensors.add(sensor);
-    }
-    public void updateGarden() {
-        // You can add any logic here to update the garden state.
-    }
+   /* public void updateGarden() {
+        // Remove dead plants
+        plants.removeIf(plant -> plant.getHealth() <= 0);
+
+        // Check for plant-insect interactions
+        for (Plant plant : plants) {
+            for (Insect insect : insects) {
+                if (plant.getHealth() > 0 && insect.getHealth() > 0 && plant.interactsWith(insect)) {
+                    plant.setHealth(plant.getHealth() - insect.getDamage());
+                    insect.setHealth(insect.getHealth() - plant.getDamage());
+                }
+            }
+        }
+
+        // Water plants with sprinklers
+        for (Sprinkler sprinkler : sprinklers) {
+            List<Plant> plantsToWater = sprinkler.getPlantsInRange(plants);
+            for (Plant plant : plantsToWater) {
+                plant.setHealth(plant.getHealth() + 1);
+            }
+        }
+    }*/
+
 
     public void displayGardenStatus() {
         System.out.println("Garden Status:");
@@ -70,9 +85,7 @@ class Garden {
         sprinklers.remove(sprinkler);
     }
 
-    public void removeSensor(Sensor sensor) {
-        sensors.remove(sensor);
-    }
+
 
     public void simulateDay() {
         for (Plant plant : plants) {
@@ -81,7 +94,7 @@ class Garden {
         for (Insect insect : insects) {
             insect.tick();
         }
-        updateGarden();
+        //updateGarden();
         sunlightSystem.simulateSunlight();
         wateringSystem.executeWatering();
     }

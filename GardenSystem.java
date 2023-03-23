@@ -1,8 +1,11 @@
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
 
 public class GardenSystem {
+    private static LocalDateTime simulationStartTime = LocalDateTime.now();
+
     public static void main(String[] args) {
         // Initialize the garden
         Garden garden = new Garden();
@@ -11,26 +14,25 @@ public class GardenSystem {
         Plant mint1 = new Mint("Mint");
         Plant cilantro1 = new Cilantro("Cilantro");
         Plant basil1 = new Basil("Basil");
+        Plant lemongrass1 = new Lemongrass("Lemongrass");
         garden.addPlant(mint1);
         garden.addPlant(cilantro1);
         garden.addPlant(basil1);
+        garden.addPlant(lemongrass1);
 
         Insect beetle1 = new Beetle("Beetle");
         Insect locust1 = new Locust("Locust");
         Insect spiderMites1 = new SpiderMites("Spider Mites");
+        Insect worm1 = new Worms("Worm");
         garden.addInsect(beetle1);
         garden.addInsect(locust1);
         garden.addInsect(spiderMites1);
+        garden.addInsect(worm1);
 
         Sprinkler sprinkler1 = new Sprinkler(new Point(0, 0), 10, 2);
         Sprinkler sprinkler2 = new Sprinkler(new Point(10, 10), 5, 1.5);
         garden.addSprinkler(sprinkler1);
         garden.addSprinkler(sprinkler2);
-
-        Sensor temperatureSensor1 = new Sensor("Temperature Sensor");
-        Sensor moistureSensor1 = new Sensor("Moisture Sensor");
-        garden.addSensor(temperatureSensor1);
-        garden.addSensor(moistureSensor1);
 
         // Initialize the garden systems
         WateringSystem wateringSystem = new WateringSystem(garden);
@@ -64,18 +66,18 @@ public class GardenSystem {
                     garden.displayGardenStatus();
                     break;
                 case 2:
-                    System.out.println("\n=== Watering Schedule ===");
-                    wateringSystem.displayWateringSchedule();
+                    System.out.println(wateringSystem.getWateringSchedule());
                     break;
                 case 3:
-                    System.out.println("\n=== Sunlight Schedule ===");
                     sunlightSystem.displaySunlightSchedule();
                     break;
                 case 4:
-                    System.out.println("\n=== Logs ===");
                     showLogs(loggingSystem, scanner);
                     break;
                 case 5:
+                    System.out.println("Simulation has been running for " + garden.simulationDays() + " days.");
+                    break;
+                case 6:
                     System.out.println("Exiting garden system. Goodbye!");
                     return;
                 default:
@@ -85,12 +87,13 @@ public class GardenSystem {
     }
 
     private static void showLogs(LoggingSystem loggingSystem, Scanner scanner) {
+        System.out.println("==Logs==");
         loggingSystem.displayLogs();
         System.out.print("Press Enter to return to the main menu.");
         scanner.nextLine();
     }
 }
 
-// ... (rest of the classes)
+
 
 

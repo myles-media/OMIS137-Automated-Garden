@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 
 class WateringSystem {
@@ -24,6 +25,12 @@ class WateringSystem {
     public void executeWatering() {
         for (Plant plant : garden.plants) {
             waterPlant(plant);
+        }
+    }
+
+    public void displayWateringSchedule() {
+        for (Plant plant : garden.plants) {
+            System.out.println("The " + plant + "plant requires: " + plant.waterRequirement + " units of water");
         }
     }
 }

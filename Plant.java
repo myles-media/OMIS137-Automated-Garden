@@ -1,38 +1,54 @@
 class Plant extends LivingOrg {
-    protected double growthRate;
     protected double waterRequirement;
+    protected double waterLevel;
     protected double sunlightRequirement;
+    protected double sunlightLevel;
 
     public Plant(String name) {
         this.name = name;
-        this.age = 0;
         this.isAlive = true;
         this.type = "Plant";
+        this.damage = 0;
     }
+    protected enum PlantAge {
+        SEEDLING("Seedling"),
+        YOUNG("Young"),
+        MATURE("Mature"),
+        ELDER("Elder");
+
+        private final String name;
+
+        PlantAge(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
 
     @Override
     public void tick() {
         super.tick();
-        grow();
+        //grow();
     }
 
-    public double getGrowthRate() {
-        return growthRate;
-    }
 
     public double getWaterRequirement() {
         return waterRequirement;
     }
 
-    public double getsunlightRequirement() {
+    public double getSunlightRequirement() {
         return sunlightRequirement;
     }
 
-    public void setGrowthRate(double growthRate) {
-        this.growthRate = growthRate;
-    }
 
     public void setWaterRequirement(double waterRequirement) {
         this.waterRequirement = waterRequirement;
+    }
+
+    public void setSunlightRequirement(double sunlightRequirement) {
+        this.sunlightRequirement = sunlightRequirement;
     }
 }

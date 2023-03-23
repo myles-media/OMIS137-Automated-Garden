@@ -3,6 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
@@ -59,22 +61,115 @@ public class GardenSystem {
         JMenuBar mb = new JMenuBar();
         JMenu fileMnu = new JMenu("FILE");
         JMenu plantMnu = new JMenu("PLANTS");
+        JMenu optionMnu = new JMenu("OPTION");
         mb.add(fileMnu);
         mb.add(plantMnu);
+        mb.add(optionMnu);
  
-        JMenuItem extMnuItm = new JMenuItem("Exit");
-        JMenuItem addMnuItm = new JMenuItem("Add");
-        JMenuItem listMnuItm = new JMenuItem("List");
+        JMenuItem fileExitMnuItm = new JMenuItem("Exit");
+        JMenuItem plantAddMnuItm = new JMenuItem("Add New");
+        JMenuItem PlantlistMnuItm = new JMenuItem("List of Plants");
 
+        JMenuItem optionMnuItm1 = new JMenuItem("Garden status");
+        JMenuItem optionMnuItm2 = new JMenuItem("Watering schedule");
+        JMenuItem optionMnuItm3 = new JMenuItem("Sunlight schedule");
+        JMenuItem optionMnuItm4 = new JMenuItem("Logs");
+        
         // close window
-        fileMnu.add(extMnuItm);
-        extMnuItm.addActionListener(e -> mainFrame.dispose());
+        fileMnu.add(fileExitMnuItm);
+        fileExitMnuItm.addActionListener(e -> mainFrame.dispose());
     
-        plantMnu.add(addMnuItm);
-        plantMnu.add(listMnuItm);
+        plantMnu.add(plantAddMnuItm);
+        plantMnu.add(PlantlistMnuItm);
+        optionMnu.add(optionMnuItm1);
+        optionMnu.add(optionMnuItm2);
+        optionMnu.add(optionMnuItm3);
+        optionMnu.add(optionMnuItm4);
+
+        optionMnuItm1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("Garden Status");
+                DefaultListModel<String> listModel = new DefaultListModel<>();
+
+                listModel.addElement("PLANTS");
+                for (Plant plant : garden.plants) {
+                    listModel.addElement(plant.getName() + " - Age: " + plant.getAge());
+                }
+                
+                listModel.addElement("------------------------------------------");
+                listModel.addElement("INSECTS");
+                for (Insect insect : garden.insects) {
+                    listModel.addElement(insect.getName() + " - Age: " + insect.getAge());
+                }
+                JList<String> list = new JList<>(listModel);
+
+                JPanel panel = new JPanel();
+                panel.add(list);
+                frame.add(panel);
+                frame.setSize(400, 200);
+                frame.setVisible(true);
+            }
+        });
+
+        optionMnuItm2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("Watering Schedule");
+                DefaultListModel<String> listModel = new DefaultListModel<>();
+
+                for (Plant plant : garden.plants) {
+                    listModel.addElement(plant.getName()+ " has: " + plant.getWaterLevel() + " units of water.");
+                    double requiredWater = (plant.getWaterRequirement() - plant.getWaterLevel());
+                    listModel.addElement("It needs: " + requiredWater + " more units");
+                    listModel.addElement("-------------------------------------------------");
+                }
+                JList<String> list = new JList<>(listModel);
+
+                JPanel panel = new JPanel();
+                panel.add(list);
+                frame.add(panel);
+                frame.setSize(400, 200);
+                frame.setVisible(true);
+                System.out.println(wateringSystem.getWateringSchedule());
+            }
+        });
+
+        optionMnuItm3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("Sunlight schedule");
+                DefaultListModel<String> listModel = new DefaultListModel<>();
+                listModel.addElement("Today's sunlight hours: " + sunlightSystem.getSunlightHours() + " hours");
+                JList<String> list = new JList<>(listModel);
+
+                JPanel panel = new JPanel();
+                panel.add(list);
+                frame.add(panel);
+                frame.setSize(400, 100);
+                frame.setVisible(true);
+                System.out.println(wateringSystem.getWateringSchedule());
+            }
+        });
+
+        optionMnuItm4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("Logs");
+                DefaultListModel<String> listModel = new DefaultListModel<>();
+
+                for (String logs: loggingSystem.logs) {
+                    listModel.addElement("Log - " + " " + logs);
+                }
+                JList<String> list = new JList<>(listModel);
+
+                JPanel panel = new JPanel();
+                panel.add(list);
+                frame.add(panel);
+                frame.setSize(400, 200);
+                frame.setVisible(true);
+                System.out.println(wateringSystem.getWateringSchedule());
+            }
+        });
 
         // add plant form
-        addMnuItm.addActionListener(new ActionListener() {
+        plantAddMnuItm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame plantFrame = new JFrame("Add plant");
                 JTextField txtAdd = new JTextField(null,10); // accepts upto 10 characters
@@ -214,6 +309,14 @@ public class GardenSystem {
                 panel.add(txtAdd);
                 panel.add(addBtn);
                 
+                // add a WindowListener to handle the closing event
+                plantFrame.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e) {
+                        mainFrame.getContentPane();
+                        mainFrame.setVisible(true);
+                    }
+                });
+
                 plantFrame.add(panel, BorderLayout.NORTH);
                 plantFrame.setSize(500, 350);
                 plantFrame.setVisible(true);
@@ -221,7 +324,7 @@ public class GardenSystem {
         });
 
         // List of plants
-        listMnuItm.addActionListener(new ActionListener() {
+        PlantlistMnuItm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame plantFrame = new JFrame("Plant list");
                 DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -262,10 +365,6 @@ public class GardenSystem {
         });
 
         ImageIcon Icon = new ImageIcon("src/images/garden.png");
-        int width = 600; // set desired width
-        Image imgBack = Icon.getImage(); // get image from icon
-        Image scaledImgBack = imgBack.getScaledInstance(width, -1, Image.SCALE_SMOOTH); // scale the image
-        ImageIcon scaledIconBack = new ImageIcon(scaledImgBack); // create new ImageIcon with scaled image
         JPanel mainPanel = new JPanel();
 
         // Refresh every 5 seconds
@@ -275,21 +374,21 @@ public class GardenSystem {
             public void run() {
                 mainPanel.removeAll();
                 int i = 0;
-                for (Plant plant : garden.plants) {
-                    int width = 100; 
-                    ImageIcon imgCon = new ImageIcon("src/images/" + plant.getName() + ".png");
-                    Image img = imgCon.getImage(); 
-                    Image scaledImg = img.getScaledInstance(width, -1, Image.SCALE_SMOOTH);
-                    ImageIcon scaledImgIcon = new ImageIcon(scaledImg); 
-    
-                    JLabel label = new JLabel(scaledImgIcon);
-                    label.setBounds(50 + i * 20, 50 + (i * 50), 100, 30);
-                    label.setBorder(BorderFactory.createEmptyBorder(10, 10 + (1 * 20), 10, 10));
-                    mainPanel.add(label);
-                    i++;
+                if (garden.plants.size() > 0) {
+                    for (Plant plant : garden.plants) {
+                        int width = 100; 
+                        ImageIcon imgCon = new ImageIcon("src/images/" + plant.getName() + ".png");
+                        Image img = imgCon.getImage(); 
+                        Image scaledImg = img.getScaledInstance(width, -1, Image.SCALE_SMOOTH);
+                        ImageIcon scaledImgIcon = new ImageIcon(scaledImg); 
+        
+                        JLabel label = new JLabel(scaledImgIcon);
+                        label.setBounds(50 + i * 20, 50 + (i * 50), 100, 30);
+                        label.setBorder(BorderFactory.createEmptyBorder(10, 10 + (1 * 20), 10, 10));
+                        mainPanel.add(label);
+                        i++;
+                    }
                 }
-                mainFrame.getContentPane();
-                mainFrame.setVisible(true);
                 garden.simulateDay();
                 garden.displayGardenStatus();
             }
@@ -297,14 +396,10 @@ public class GardenSystem {
         timer.schedule(task, 0, 5000);
 
         JLabel background = new JLabel(Icon);
-        //mainFrame.setContentPane(background);   //ImageIO.read(new File("test.jpg")))));
         mainFrame.add(background);
         mainFrame.getContentPane().add(BorderLayout.NORTH, mb);
         background.setLayout(new GridBagLayout());
         background.add(mainPanel);
-        // mainFrame.getContentPane().add(BorderLayout.NORTH, mb);
-        // mainFrame.getContentPane().add(BorderLayout.SOUTH, mainPanel);
-        // mainFrame.add(background);
         mainFrame.setVisible(true);
     }
 

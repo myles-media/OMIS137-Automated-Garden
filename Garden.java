@@ -22,7 +22,8 @@ class Garden {
     public double simulationDays() {
         long elapsedTime = System.nanoTime() - startTime;
         long elapsedHours = TimeUnit.NANOSECONDS.toSeconds(elapsedTime);
-        return (double) elapsedHours / 24;
+        double days = (double) elapsedHours / 24;
+        return Math.round(days * 100.0) / 100.0;
     }
 
     public void addPlant(Plant plant) {
@@ -65,10 +66,12 @@ class Garden {
         System.out.println("Garden Status:");
         System.out.println("Plants:");
         for (Plant plant : plants) {
+            plant.age = simulationDays();
             System.out.println(plant.getName() + " - Age: " + plant.getAge());
         }
         System.out.println("Insects:");
         for (Insect insect : insects) {
+            insect.age = simulationDays();
             System.out.println(insect.getName() + " - Age: " + insect.getAge());
         }
     }

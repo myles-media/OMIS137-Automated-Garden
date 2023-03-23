@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
+import java.util.Timer;
+
 import javax.swing.*;
 //import java.awt.*;
 import javax.swing.border.Border;
@@ -45,14 +47,13 @@ public class GardenSystem {
         WateringSystem wateringSystem = garden.getWateringSystem();
         SunlightSystem sunlightSystem = garden.getSunlightSystem();
 
-
         // Initialize the logging system
         LoggingSystem loggingSystem = new LoggingSystem();
 
         //Creating the Frame
-        JFrame frame = new JFrame("Garden System");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 400);
+        JFrame mainFrame = new JFrame("Garden System");
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setSize(600, 400);
 
         //Creating the MenuBar and adding components
         JMenuBar mb = new JMenuBar();
@@ -67,7 +68,7 @@ public class GardenSystem {
 
         // close window
         fileMnu.add(extMnuItm);
-        extMnuItm.addActionListener(e -> frame.dispose());
+        extMnuItm.addActionListener(e -> mainFrame.dispose());
     
         plantMnu.add(addMnuItm);
         plantMnu.add(listMnuItm);
@@ -226,7 +227,6 @@ public class GardenSystem {
                 DefaultListModel<String> listModel = new DefaultListModel<>();
                 
                 for (Plant plant : garden.plants) {
-                   // plant.getName() + " - Age: " + plant.getAge());
                    listModel.addElement(plant.getName());
                 }
                 JList<String> list = new JList<>(listModel);
@@ -243,28 +243,10 @@ public class GardenSystem {
                             return;
                         }
                         
-                        // Plant basil1 = new Basil(selectedValue);
-                        // Plant mint1 = new Mint(selectedValue);
-                       
                         Plant thisPlant = new Plant(selectedValue);
-                        
-                        //Plant mint1 = new Mint(selectedValue);
-                         //Plant cilantro1 = new Cilantro(selectedValue);
-                        // Plant basil1 = new Basil(selectedValue);
-                        //Plant lemongrass1 = new Lemongrass(selectedValue);
-                        // garden.addPlant(mint1);
-                        // garden.addPlant(cilantro1);
-                        // garden.addPlant(basil1);
-                        // garden.removePlant(lemongrass1);
-                        // garden.removePlant(mint1);
-                        // garden.removePlant(cilantro1);
-                        // garden.removePlant(basil1);
-                        //Plant thisPlant = new Plant(selectedValue);
                         garden.removePlant(thisPlant);
 
                         JOptionPane.showMessageDialog(null, thisPlant.getName());
-                        
-                        //JOptionPane.showMessageDialog(null, garden.plants.remove(loggingSystem));
                         garden.displayGardenStatus();
                     }
                 });
@@ -284,11 +266,46 @@ public class GardenSystem {
         Image imgBack = Icon.getImage(); // get image from icon
         Image scaledImgBack = imgBack.getScaledInstance(width, -1, Image.SCALE_SMOOTH); // scale the image
         ImageIcon scaledIconBack = new ImageIcon(scaledImgBack); // create new ImageIcon with scaled image
+        JPanel mainPanel = new JPanel();
 
-        JLabel background = new JLabel(scaledIconBack);
-        frame.add(background);
-        frame.getContentPane().add(BorderLayout.NORTH, mb);
-        frame.setVisible(true);
+        // Refresh every 5 seconds
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+        @Override
+            public void run() {
+                mainPanel.removeAll();
+                int i = 0;
+                for (Plant plant : garden.plants) {
+                    int width = 100; 
+                    ImageIcon imgCon = new ImageIcon("src/images/" + plant.getName() + ".png");
+                    Image img = imgCon.getImage(); 
+                    Image scaledImg = img.getScaledInstance(width, -1, Image.SCALE_SMOOTH);
+                    ImageIcon scaledImgIcon = new ImageIcon(scaledImg); 
+    
+                    JLabel label = new JLabel(scaledImgIcon);
+                    label.setBounds(50 + i * 20, 50 + (i * 50), 100, 30);
+                    label.setBorder(BorderFactory.createEmptyBorder(10, 10 + (1 * 20), 10, 10));
+                    mainPanel.add(label);
+                    i++;
+                }
+                mainFrame.getContentPane();
+                mainFrame.setVisible(true);
+                garden.simulateDay();
+                garden.displayGardenStatus();
+            }
+        };
+        timer.schedule(task, 0, 5000);
+
+        JLabel background = new JLabel(Icon);
+        //mainFrame.setContentPane(background);   //ImageIO.read(new File("test.jpg")))));
+        mainFrame.add(background);
+        mainFrame.getContentPane().add(BorderLayout.NORTH, mb);
+        background.setLayout(new GridBagLayout());
+        background.add(mainPanel);
+        // mainFrame.getContentPane().add(BorderLayout.NORTH, mb);
+        // mainFrame.getContentPane().add(BorderLayout.SOUTH, mainPanel);
+        // mainFrame.add(background);
+        mainFrame.setVisible(true);
     }
 
     private static void showLogs(LoggingSystem loggingSystem, Scanner scanner) {

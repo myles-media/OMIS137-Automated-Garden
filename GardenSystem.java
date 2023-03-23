@@ -6,8 +6,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.Border;
@@ -171,7 +173,17 @@ public class GardenSystem {
         JFrame frame = new JFrame("Date and Time");
         DefaultListModel<String> listModel = new DefaultListModel<>();
 
-        listModel.addElement("The simulation has been running for: " + garden.simulationDays()+" days!");
+        // get the current date and time
+        LocalDateTime now = LocalDateTime.now();
+
+        // convert real-time seconds to simulation minutes
+        double simulationMinutes = garden.simulationDays() * 24 * 60 + TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - garden.startTime) * 30;
+
+        // create a date formatter with the required format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a");
+
+        listModel.addElement("Current date and time: " + now.format(formatter));
+        listModel.addElement("Simulation time: " + String.format("%.1f", simulationMinutes) + " minutes");
 
         JList<String> list = new JList<>(listModel);
 
@@ -181,6 +193,9 @@ public class GardenSystem {
         frame.setSize(400, 200);
         frame.setVisible(true);
     }
+
+
+
 
     private static void showLogs() {
         JFrame frame = new JFrame("Logs");

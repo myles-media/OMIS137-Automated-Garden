@@ -6,6 +6,5 @@ class Basil extends Plant {
         this.waterLevel = 0;
         this.sunlightRequirement = 6;
         this.sunlightLevel = 0;
-        this.lifespan = 365;
     }
 }

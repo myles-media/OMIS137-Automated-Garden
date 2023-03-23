@@ -17,12 +17,24 @@ class Garden {
         insects = new ArrayList<>();
         sprinklers = new ArrayList<>();
         startTime = System.nanoTime();
-
+        wateringSystem = new WateringSystem(this);
+        sunlightSystem = new SunlightSystem(this);
     }
+
+    public WateringSystem getWateringSystem() {
+        return wateringSystem;
+    }
+
+    public SunlightSystem getSunlightSystem() {
+        return sunlightSystem;
+    }
+
+
     public double simulationDays() {
         long elapsedTime = System.nanoTime() - startTime;
         long elapsedHours = TimeUnit.NANOSECONDS.toSeconds(elapsedTime);
-        return (double) elapsedHours / 24;
+        double days = (double) elapsedHours / 24;
+        return Math.round(days * 100.0) / 100.0;
     }
 
     public void addPlant(Plant plant) {
@@ -86,16 +98,28 @@ class Garden {
     }
 
 
-
     public void simulateDay() {
         for (Plant plant : plants) {
-            plant.tick();
+            plant.grow();
         }
         for (Insect insect : insects) {
-            insect.tick();
+            if (insect.getName().equals("Locust")) {
+                // Locust evolve faster than other insects
+                insect.age = Age.values()[(insect.getAge().ordinal() + 2) % Age.values().length];
+            } else if (insect.getName().equals("Worm")) {
+                // Worms evolve faster than other insects
+                insect.age = Age.values()[(insect.getAge().ordinal() + 4) % Age.values().length];
+            } else {
+                // Other insects evolve normally
+                insect.grow();
+            }
         }
-        //updateGarden();
         sunlightSystem.simulateSunlight();
         wateringSystem.executeWatering();
     }
-}
+
+    //public String getDaySummary() {
+        // Return a string that represents the summary of what happened in the garden during the simulation.
+        // This should include plant growth, insect activity, watering, and sunlight.
+    }
+

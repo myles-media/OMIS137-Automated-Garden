@@ -3,50 +3,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-// Parent classes
+
+// New enum class
+enum Age {
+    YOUNG, MATURE, ELDER
+}
+
+// Parent class
 
 abstract class LivingOrg {
     protected String name;
-    public double simulationDays;
-    public int age;
-
-    protected enum age{
-        YOUNG("Young"),
-        MATURE("Mature"),
-        ELDER("Elder");
-        private final String name;
-
-        age(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-    }
-    protected int lifespan;
+    protected Age age;
     protected boolean isAlive;
     protected String type;
     protected double damage;
 
-    /*public void grow() {
-        int daysElapsed = (double) simulationDays();
-        int daysPerStage = lifespan / age.values().length;
-
-        int currentStage = age.ordinal();
-        int nextStage = currentStage + daysElapsed / daysPerStage;
-
-        if (nextStage >= age.values().length) {
-            age = age.values()[age.values().length - 1];
+    public void grow() {
+        if (age == Age.ELDER) {
+            isAlive = false;
         } else {
-            age = age.values()[nextStage];
+            age = Age.values()[age.ordinal() + 1];
         }
-    }*/
-
-
+    }
 
     public boolean checkAlive() {
-        if (age >= lifespan) {
+        if (age == Age.ELDER) {
             isAlive = false;
         }
         return isAlive;
@@ -60,15 +41,16 @@ abstract class LivingOrg {
         return name;
     }
 
-    public int getAge() {
+    public Age getAge() {
         return age;
     }
+
     public double getDamage() {
         return damage;
     }
 
     public void tick() {
-        age++;
+        age = Age.values()[age.ordinal() + 1];
         checkAlive();
     }
 }

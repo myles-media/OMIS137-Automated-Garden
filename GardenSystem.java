@@ -52,7 +52,7 @@ public class GardenSystem {
         //Creating the Frame
         JFrame frame = new JFrame("Garden System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 400);
+        frame.setSize(600, 400);
 
         //Creating the MenuBar and adding components
         JMenuBar mb = new JMenuBar();
@@ -65,14 +65,14 @@ public class GardenSystem {
         JMenuItem addMnuItm = new JMenuItem("Add");
         JMenuItem listMnuItm = new JMenuItem("List");
 
-         // close window
-         fileMnu.add(extMnuItm);
-         extMnuItm.addActionListener(e -> frame.dispose());
-        
-         plantMnu.add(addMnuItm);
-         plantMnu.add(listMnuItm);
+        // close window
+        fileMnu.add(extMnuItm);
+        extMnuItm.addActionListener(e -> frame.dispose());
+    
+        plantMnu.add(addMnuItm);
+        plantMnu.add(listMnuItm);
 
-         // add plant form
+        // add plant form
         addMnuItm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame plantFrame = new JFrame("Add plant");
@@ -201,6 +201,7 @@ public class GardenSystem {
                         Plant thisPlant = new Plant(textValue);
                         garden.addPlant(thisPlant);
                         txtAdd.setText("");
+                        loggingSystem.addLog("Add new plant " + textValue, "plant");
                         JOptionPane.showMessageDialog(null, "Plant successfully added!");
                     }
                 });
@@ -213,7 +214,6 @@ public class GardenSystem {
                 panel.add(addBtn);
                 
                 plantFrame.add(panel, BorderLayout.NORTH);
-                //plantFrame.add(panel, BorderLayout.SOUTH);
                 plantFrame.setSize(500, 350);
                 plantFrame.setVisible(true);
             }
@@ -245,7 +245,9 @@ public class GardenSystem {
                         
                         // Plant basil1 = new Basil(selectedValue);
                         // Plant mint1 = new Mint(selectedValue);
+                       
                         Plant thisPlant = new Plant(selectedValue);
+                        
                         //Plant mint1 = new Mint(selectedValue);
                          //Plant cilantro1 = new Cilantro(selectedValue);
                         // Plant basil1 = new Basil(selectedValue);
@@ -276,7 +278,15 @@ public class GardenSystem {
                 plantFrame.setVisible(true);
             }
         });
- 
+
+        ImageIcon Icon = new ImageIcon("src/images/garden.png");
+        int width = 600; // set desired width
+        Image imgBack = Icon.getImage(); // get image from icon
+        Image scaledImgBack = imgBack.getScaledInstance(width, -1, Image.SCALE_SMOOTH); // scale the image
+        ImageIcon scaledIconBack = new ImageIcon(scaledImgBack); // create new ImageIcon with scaled image
+
+        JLabel background = new JLabel(scaledIconBack);
+        frame.add(background);
         frame.getContentPane().add(BorderLayout.NORTH, mb);
         frame.setVisible(true);
     }

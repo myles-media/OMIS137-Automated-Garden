@@ -81,14 +81,14 @@ public class GardenSystem {
         mb.add(plantMnu);
         mb.add(optionMnu);
  
-        JMenuItem fileExitMnuItm = new JMenuItem("Exit");
-        JMenuItem plantAddMnuItm = new JMenuItem("Add New");
-        JMenuItem PlantlistMnuItm = new JMenuItem("List of Plants");
+        fileExitMnuItm = new JMenuItem("Exit");
+        plantAddMnuItm = new JMenuItem("Add New");
+        PlantlistMnuItm = new JMenuItem("List of Plants");
 
-        JMenuItem optionMnuItm1 = new JMenuItem("Garden status");
-        JMenuItem optionMnuItm2 = new JMenuItem("Watering schedule");
-        JMenuItem optionMnuItm3 = new JMenuItem("Sunlight schedule");
-        JMenuItem optionMnuItm4 = new JMenuItem("Logs");
+        optionMnuItm1 = new JMenuItem("Garden status");
+        optionMnuItm2 = new JMenuItem("Watering schedule");
+        optionMnuItm3 = new JMenuItem("Sunlight schedule");
+        optionMnuItm4 = new JMenuItem("Logs");
         
         // close window
         fileMnu.add(fileExitMnuItm);
@@ -461,7 +461,6 @@ public class GardenSystem {
             }
         }
         garden.simulateDay();
-        garden.displayGardenStatus();
     }
 }
 

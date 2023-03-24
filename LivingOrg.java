@@ -6,8 +6,19 @@ import java.util.Map;
 
 // New enum class
 enum Age {
-    YOUNG, MATURE, ELDER
+    YOUNG(1), MATURE(2), ELDER(3);
+
+    private final int value;
+
+    Age(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
 }
+
 
 // Parent class
 

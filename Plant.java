@@ -1,55 +1,62 @@
 class Plant extends LivingOrg {
     private int daysToNextAge;
+    private int[] daysToNextAges = {10, 15, Integer.MAX_VALUE};
     protected double waterRequirement;
     protected Age lifespan;
     protected double waterLevel;
     protected double sunlightRequirement;
     protected double sunlightLevel;
+    protected double[] sunlightIncrements; // new field for storing sunlight level increments
+    protected double[] waterIncrements; // new field for storing water level increments
 
     public Plant(String name) {
         this.name = name;
-        this.waterLevel = 0;
-        this.sunlightLevel = 0;
-        this.daysToNextAge = daysToNextAge;
+        this.waterLevel = 1;
+        this.sunlightLevel = 1;
+        this.waterRequirement = waterRequirement;
+        this.daysToNextAge = daysToNextAges[0];
         age = Age.YOUNG;
         lifespan = Age.ELDER;
         isAlive = true;
         type = "Plant";
         damage = 0;
+
+        // initialize the arrays of random increments for each age stage
+        sunlightIncrements = new double[]{0.5, 1.0, 1.5};
+        waterIncrements = new double[]{0.1, 0.2, 0.3};
     }
+
     public void grow() {
         daysToNextAge--;
         if (daysToNextAge <= 0) {
-            if (age == Age.ELDER) {
+            int currentAgeOrdinal = age.ordinal();
+            int maxAgeOrdinal = Age.ELDER.ordinal();
+
+            if (currentAgeOrdinal == maxAgeOrdinal) {
                 isAlive = false;
             } else {
-                // define the range
+                // generate random number for daysToNextAge at the current age stage
                 int max = 2;
-                int min = 1;
+                int min = 0;
                 int range = max - min + 1;
-                // generate random numbers within 1 to 10
-                int rand = 0;
-                for (int i = 0; i < 10; i++) {
-                    rand = (int) (Math.random() * range) + min;
-                }
-                age = Age.values()[age.ordinal() + rand];
-                daysToNextAge = getDaysToNextAge(); // Set daysToNextAge for the new age stage
+                int rand = (int) (Math.random() * range) + min;
+                daysToNextAges[currentAgeOrdinal + 1] = rand;
+                age = Age.values()[currentAgeOrdinal + 1];
+                daysToNextAge = daysToNextAges[currentAgeOrdinal + 1]; // Set daysToNextAge for the new age stage
+
+                // increment the sunlight and water levels randomly based on the current age stage
+                sunlightLevel += sunlightIncrements[currentAgeOrdinal] * Math.random();
+                waterLevel += waterIncrements[currentAgeOrdinal] * Math.random();
             }
         }
     }
-    private int getDaysToNextAge() {
-        switch (age) {
-            case YOUNG:
-                return 10; // Takes 10 days to mature
-            case MATURE:
-                return 15; // Takes 15 days to become elder
-            case ELDER:
-                return Integer.MAX_VALUE; // Never evolves past elder
-            default:
-                return 0; // Invalid age
-        }
-    }
 
+
+    private int getDaysToNextAge() {
+        int[] daysToNextAge = {10, 15, Integer.MAX_VALUE};
+        int currentAgeOrdinal = age.ordinal();
+        return daysToNextAge[currentAgeOrdinal];
+    }
 
 
     @Override
@@ -62,6 +69,7 @@ class Plant extends LivingOrg {
     public double getWaterRequirement() {
         return waterRequirement;
     }
+
     public double getWaterLevel() {
         return waterLevel;
     }
@@ -70,15 +78,16 @@ class Plant extends LivingOrg {
     public double getSunlightRequirement() {
         return sunlightRequirement;
     }
+
     public double getSunlightLevel() {
         return sunlightRequirement;
     }
 
 
-
     public void setWaterRequirement(double waterRequirement) {
         this.waterRequirement = waterRequirement;
     }
+
     public void setWaterLevel(double waterLevel) {
         this.waterLevel = waterLevel;
     }
@@ -86,5 +95,13 @@ class Plant extends LivingOrg {
     public void setSunlightRequirement(double sunlightRequirement) {
         this.sunlightRequirement = sunlightRequirement;
     }
-    public void setSunlightLevel(double sunlightLevel) {this.sunlightLevel = sunlightLevel;}
+
+    public void setSunlightLevel(double sunlightLevel) {
+        this.sunlightLevel = sunlightLevel;
+    }
+
+    public void resetSunlightAndWaterLevels(int sunlightHours) {
+        this.sunlightLevel = sunlightHours;
+        this.waterLevel = 0;
+    }
 }

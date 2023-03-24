@@ -6,9 +6,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.List;
 import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.Border;
@@ -29,6 +30,7 @@ public class GardenSystem {
     private static JMenuItem optionMnuItm2;
     private static JMenuItem optionMnuItm3;
     private static JMenuItem optionMnuItm4;
+    private static JMenuItem optionMnuItm5;
     private static JPanel mainPanel;
 
     private static Garden garden; 
@@ -42,10 +44,6 @@ public class GardenSystem {
         // Initialize the garden
         garden = new Garden();
 
-        // Add plants, insects, sprinklers, and sensors to the garden
-        // Plant mint1 = new Mint("Mint");
-        // garden.addPlant(mint1);
-
         Insect beetle1 = new Beetle("Beetle");
         Insect locust1 = new Locust("Locust");
         Insect spiderMites1 = new SpiderMite("Spider Mite");
@@ -54,11 +52,6 @@ public class GardenSystem {
         garden.addInsect(locust1);
         garden.addInsect(spiderMites1);
         garden.addInsect(worm1);
-        
-        Sprinkler sprinkler1 = new Sprinkler(new Point(0, 0), 10, 2);
-        Sprinkler sprinkler2 = new Sprinkler(new Point(10, 10), 5, 1.5);
-        garden.addSprinkler(sprinkler1);
-        garden.addSprinkler(sprinkler2);
 
         // Initialize the garden systems
         wateringSystem = garden.getWateringSystem();
@@ -75,7 +68,7 @@ public class GardenSystem {
         mb = new JMenuBar();
         fileMnu = new JMenu("FILE");
         plantMnu = new JMenu("PLANTS");
-        optionMnu = new JMenu("OPTION");
+        optionMnu = new JMenu("MENU");
 
         mb.add(fileMnu);
         mb.add(plantMnu);
@@ -89,6 +82,7 @@ public class GardenSystem {
         optionMnuItm2 = new JMenuItem("Watering schedule");
         optionMnuItm3 = new JMenuItem("Sunlight schedule");
         optionMnuItm4 = new JMenuItem("Logs");
+        optionMnuItm5 = new JMenuItem("Date & Time");
         
         // close window
         fileMnu.add(fileExitMnuItm);
@@ -97,21 +91,14 @@ public class GardenSystem {
         plantMnu.add(plantAddMnuItm);
         plantMnu.add(PlantlistMnuItm);
         optionMnu.add(optionMnuItm1);
-        optionMnu.add(optionMnuItm2);
         optionMnu.add(optionMnuItm3);
         optionMnu.add(optionMnuItm4);
+        optionMnu.add(optionMnuItm5);
 
         // garden status
         optionMnuItm1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showGardenStatus();
-            }
-        });
-
-        // watering schedule
-        optionMnuItm2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                showWateringSchedule();
             }
         });
 
@@ -124,6 +111,12 @@ public class GardenSystem {
         optionMnuItm4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showLogs();
+            }
+        });
+        optionMnuItm5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                showDateTime();
             }
         });
 
@@ -161,6 +154,33 @@ public class GardenSystem {
         background.add(mainPanel);
         mainFrame.setVisible(true);
     }
+    private static void showDateTime() {
+        JFrame frame = new JFrame("Date and Time");
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+
+        // get the current date and time
+        LocalDateTime now = LocalDateTime.now();
+
+        // convert real-time seconds to simulation minutes
+        double simulationMinutes = garden.simulationDays() * 24 * 60 + TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - garden.startTime) * 30;
+
+        // create a date formatter with the required format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a");
+
+        listModel.addElement("Current date and time: " + now.format(formatter));
+        listModel.addElement("Simulation time: " + String.format("%.1f", simulationMinutes) + " minutes");
+
+        JList<String> list = new JList<>(listModel);
+
+        JPanel panel = new JPanel();
+        panel.add(list);
+        frame.add(panel);
+        frame.setSize(400, 200);
+        frame.setVisible(true);
+    }
+
+
+
 
     private static void showLogs() {
         JFrame frame = new JFrame("Logs");
@@ -191,25 +211,6 @@ public class GardenSystem {
         listModel.addElement("INSECTS");
         for (Insect insect : garden.insects) {
             listModel.addElement(insect.getName() + " - Age: " + insect.getAge());
-        }
-        JList<String> list = new JList<>(listModel);
-
-        JPanel panel = new JPanel();
-        panel.add(list);
-        frame.add(panel);
-        frame.setSize(400, 200);
-        frame.setVisible(true);
-    }
-
-    private static void showWateringSchedule() {
-        JFrame frame = new JFrame("Watering Schedule");
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-
-        for (Plant plant : garden.plants) {
-            listModel.addElement(plant.getName()+ " has: " + plant.getWaterLevel() + " units of water.");
-            double requiredWater = (plant.getWaterRequirement() - plant.getWaterLevel());
-            listModel.addElement("It needs: " + requiredWater + " more units");
-            listModel.addElement("-------------------------------------------------");
         }
         JList<String> list = new JList<>(listModel);
 
@@ -398,22 +399,22 @@ public class GardenSystem {
         }
         
         JPanel panel = new JPanel();
-        JButton removeBtn = new JButton("Remove");
+        JButton removeBtn = new JButton("Harvest");
         
         removeBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int row = table.getSelectedRow();
                 String selectedValue = (String) table.getValueAt(row, 0);
                 if (selectedValue == null) {
-                    JOptionPane.showMessageDialog(null, "Select plant to remove!");
+                    JOptionPane.showMessageDialog(null, "Select plant to Harvest!");
                     return;
                 }
                 
                 for (Plant plant : garden.plants) {
                     if (selectedValue.equalsIgnoreCase(plant.getName())) {
                         garden.removePlant(plant);
-                        loggingSystem.addLog("Remove plant " + plant.getName(), "plant");
-                        JOptionPane.showMessageDialog(null, plant.getName() + " successfully removed !");
+                        loggingSystem.addLog("Harvest plant " + plant.getName(), "plant");
+                        JOptionPane.showMessageDialog(null, plant.getName() + " successfully harvested !");
                         DefaultTableModel model = (DefaultTableModel) table.getModel(); // Assuming table is your JTable object
                         int selectedRow = table.getSelectedRow();
                         if (selectedRow != -1) { // Make sure a row is actually selected
@@ -463,7 +464,3 @@ public class GardenSystem {
         garden.simulateDay();
     }
 }
-
-
-
-

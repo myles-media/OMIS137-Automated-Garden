@@ -1,6 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
-
+//NOTE: Watering System has been redacted from main program. This class has been kept for documentation purposes
 class WateringSystem {
     Garden garden;
     Map<Plant, Integer> schedule;
@@ -33,6 +33,7 @@ class WateringSystem {
             waterPlant(plant);
         }
     }
+
     public void displayWateringSystem() {
         System.out.println("Watering Requirements:");
         System.out.println("Plants:");
@@ -40,12 +41,6 @@ class WateringSystem {
             System.out.println(plant.getName()+ " has: " + plant.getWaterLevel() + " units of water.");
             double requiredWater = (plant.getWaterRequirement() - plant.getWaterLevel());
             System.out.println("It needs: " + requiredWater + " more units");
-        }
-    }
-
-    public void displayWateringSchedule() {
-        for (Plant plant : garden.plants) {
-            System.out.println("The " + plant + "plant requires: " + plant.getWaterRequirement() + " units of water");
         }
     }
 }
